@@ -1,0 +1,17 @@
+<idea-plugin>
+    <id>dev.juhidamley.claude-cling</id>
+    <name>Claude Cling</name>
+    <vendor>juhidamley</vendor>
+    <description><![CDATA[
+        Adds a cling when Claude Code finishes or prints output that looks like it needs user attention in the JetBrains terminal.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Claude Cling" displayType="BALLOON" isLogByDefault="true"/>
+        <projectActivity implementation="dev.juhidamley.claudecling.ClaudeClingProjectActivity"/>
+    </extensions>
+</idea-plugin>
+

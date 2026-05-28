@@ -17,6 +17,11 @@ dependencies {
   testImplementation(kotlin("test"))
 }
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
 intellij {
   version.set("2024.1.4")
   type.set("IC")
@@ -33,6 +38,7 @@ tasks {
 
   patchPluginXml {
     sinceBuild.set("241")
+    untilBuild.set("")
   }
 
   test {

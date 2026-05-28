@@ -11,6 +11,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Claude Cling" displayType="BALLOON" isLogByDefault="true"/>
+        <projectService serviceImplementation="dev.juhidamley.claudecling.ClaudeClingService"/>
         <projectActivity implementation="dev.juhidamley.claudecling.ClaudeClingProjectActivity"/>
     </extensions>
 </idea-plugin>

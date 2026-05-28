@@ -86,6 +86,8 @@ internal class ClaudeSessionDetector {
   }
 
   companion object {
+    // Keep the scan window limited to recent terminal text so polling remains cheap
+    // while still covering the latest command line plus a few screens of output.
     private const val MAX_SCAN_CHARS = 4000
     private val CLAUDE_COMMAND_REGEX = Regex(
       pattern = """(?im)(?:^|[\r\n]).{0,24}\b(?:claude(?:\s+code)?|claude-code)\b.*$""",

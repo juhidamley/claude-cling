@@ -18,6 +18,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.jetbrains.plugins.terminal.TerminalToolWindowManager
 import java.awt.Toolkit
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
 
 @Service(Service.Level.PROJECT)
@@ -47,7 +48,7 @@ class ClaudeClingService(
       while (isActive) {
         val snapshot = runCatching {
           TerminalSnapshot(
-            text = ApplicationManager.getApplication().invokeAndWait<String> { widget.text.toString() },
+            text = readTerminalText(widget),
             running = widget.isCommandRunning(),
           )
         }.getOrElse { error ->
@@ -76,8 +77,16 @@ class ClaudeClingService(
     attachedWidgets.clear()
   }
 
+  private fun readTerminalText(widget: TerminalWidget): String {
+    val future = CompletableFuture<String>()
+    ApplicationManager.getApplication().invokeLater {
+      future.complete(widget.text.toString())
+    }
+    return future.get()
+  }
+
   companion object {
-    private const val POLL_INTERVAL_MS = 1000L
+    private const val POLL_INTERVAL_MS = 3000L
     private const val NOTIFICATION_GROUP_ID = "Claude Cling"
 
     fun getInstance(project: Project): ClaudeClingService = project.service()
@@ -90,4 +99,3 @@ private fun ClaudeClingSeverity.toNotificationType(): NotificationType {
     ClaudeClingSeverity.WARNING -> NotificationType.WARNING
   }
 }
-

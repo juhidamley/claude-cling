@@ -20,6 +20,7 @@ import org.jetbrains.plugins.terminal.TerminalToolWindowManager
 import java.awt.Toolkit
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 
 @Service(Service.Level.PROJECT)
 class ClaudeClingService(
@@ -82,7 +83,7 @@ class ClaudeClingService(
     ApplicationManager.getApplication().invokeLater {
       future.complete(widget.text.toString())
     }
-    return future.get()
+    return future.get(5, TimeUnit.SECONDS)
   }
 
   companion object {
